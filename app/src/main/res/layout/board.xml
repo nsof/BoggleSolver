@@ -60,13 +60,18 @@
         android:id="@+id/h3_guideline"
         app:layout_constraintGuide_percent=".75"
         android:orientation="horizontal"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/h4_guideline"
+        app:layout_constraintGuide_percent="1.0"
+        android:orientation="horizontal"/>
 
     <TextView
-        android:id="@+id/textView_11"
+        android:id="@+id/textView_00"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/cell_shape"
-        android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="40sp"
         android:gravity="center"
@@ -78,18 +83,92 @@
     </TextView>
 
     <TextView
-        android:id="@+id/textView_22"
+        android:id="@+id/textView_01"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/cell_shape"
-        android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="40sp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/h3_guideline"
+        app:layout_constraintTop_toTopOf="@+id/h0_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h1_guideline"
+        app:layout_constraintLeft_toLeftOf="@+id/v1_guideline"
+        app:layout_constraintRight_toRightOf="@+id/v2_guideline"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_02"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cell_shape"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/h0_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h1_guideline"
         app:layout_constraintLeft_toLeftOf="@+id/v2_guideline"
         app:layout_constraintRight_toRightOf="@+id/v3_guideline"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_03"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cell_shape"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/h0_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h1_guideline"
+        app:layout_constraintLeft_toLeftOf="@+id/v3_guideline"
+        app:layout_constraintRight_toRightOf="@+id/v4_guideline"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cell_shape"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/h1_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h2_guideline"
+        app:layout_constraintLeft_toLeftOf="@+id/v0_guideline"
+        app:layout_constraintRight_toRightOf="@+id/v1_guideline"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_20"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cell_shape"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="40sp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="@+id/h2_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h3_guideline"
+        app:layout_constraintLeft_toLeftOf="@+id/v0_guideline"
+        app:layout_constraintRight_toRightOf="@+id/v1_guideline"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView_30"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/cell_shape"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/h3_guideline"
+        app:layout_constraintBottom_toBottomOf="@+id/h4_guideline"
+        app:layout_constraintLeft_toLeftOf="@+id/v0_guideline"
+        app:layout_constraintRight_toRightOf="@+id/v1_guideline"
         >
     </TextView>
 

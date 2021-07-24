@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BoggleSolver</string>
+    <string name="enterLetters">Enter Letters</string>
+    <string name="solve">Solve</string>
+</resources>

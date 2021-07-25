@@ -2,5 +2,8 @@
     <string name="app_name">BoggleSolver</string>
     <string name="enterLetters">הכנס אותיות</string>
     <string name="solve">פתור</string>
-    <string name="defaultText">****\n****\n****\n****</string>
+    <string name="defaultText">****
+        ****
+        ****
+        ****</string>
 </resources>

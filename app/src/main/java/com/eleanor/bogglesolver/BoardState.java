@@ -18,19 +18,7 @@ public class BoardState {
         if (lettersAsString.length() != NUMBER_OF_BOARD_CELLS) {
             lettersAsString = new String(new char[NUMBER_OF_BOARD_CELLS]).replace('\0', '*');
         }
-/* (Letter order and positing in state)
 
-+-----------+-----------+-----------+-----------+
-| L00 (0,0) | L01 (0,1) | L02 (0,2) | L03 (0,3) |
-+-----------+-----------+-----------+-----------+
-| L04 (1,0) | L05 (1,1) | L06 (1,2) | L07 (1,3) |
-+-----------+-----------+-----------+-----------+
-| L08 (2,0) | L09 (2,1) | L10 (2,2) | L11 (2,3) |
-+-----------+-----------+-----------+-----------+
-| L12 (3,0) | L13 (3,2) | L14 (3,2) | L15 (3,3) |
-+-----------+-----------+-----------+-----------+
-
- */
         int idx = 0;
         for (int i = 0; i < this.BOARD_HEIGHT ; i++) {
             for (int j = 0; j < this.BOARD_WIDTH ; j++) {
@@ -38,5 +26,17 @@ public class BoardState {
                 idx++;
             }
         }
+    }
+
+    public String getAsString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < this.BOARD_HEIGHT ; i++) {
+            for (int j = 0; j < this.BOARD_WIDTH ; j++) {
+                sb.append(mLetters[i][j]);
+            }
+        }
+
+        return sb.toString();
     }
 }

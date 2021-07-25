@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BoggleSolver</string>
-    <string name="enterLetters">Enter Letters</string>
-    <string name="solve">Solve</string>
+    <string name="enterLetters">הכנס אותיות</string>
+    <string name="solve">פתור</string>
+    <string name="defaultText">****\n****\n****\n****</string>
 </resources>

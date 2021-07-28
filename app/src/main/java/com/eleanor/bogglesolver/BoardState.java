@@ -4,13 +4,13 @@ public class BoardState {
     public int BOARD_WIDTH;
     public int BOARD_HEIGHT;
     public int NUMBER_OF_BOARD_CELLS;
-    public char[][] mLetters;
+    public char[][] letters;
 
     public BoardState() {
         BOARD_WIDTH = 4;
         BOARD_HEIGHT = 4;
         NUMBER_OF_BOARD_CELLS = BOARD_WIDTH * BOARD_HEIGHT;
-        mLetters = new char[this.BOARD_WIDTH][this.BOARD_HEIGHT];
+        letters = new char[this.BOARD_WIDTH][this.BOARD_HEIGHT];
         setLetters("");
     }
 
@@ -22,7 +22,7 @@ public class BoardState {
         int idx = 0;
         for (int i = 0; i < this.BOARD_HEIGHT ; i++) {
             for (int j = 0; j < this.BOARD_WIDTH ; j++) {
-                mLetters[i][j] = lettersAsString.charAt(idx);
+                letters[i][j] = lettersAsString.charAt(idx);
                 idx++;
             }
         }
@@ -33,7 +33,7 @@ public class BoardState {
 
         for (int i = 0; i < this.BOARD_HEIGHT ; i++) {
             for (int j = 0; j < this.BOARD_WIDTH ; j++) {
-                sb.append(mLetters[i][j]);
+                sb.append(letters[i][j]);
             }
         }
 

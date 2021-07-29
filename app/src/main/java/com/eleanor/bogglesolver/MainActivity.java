@@ -5,36 +5,60 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.eleanor.bogglesolver.Trie.Trie;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BoardState mBoardState;
+    private BoardState boardState;
+    Trie dictionaryTrie;
+    ArrayList<ResultItem> resultItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mBoardState = new BoardState();
-        updateBoardView(mBoardState);
+        this.boardState = new BoardState();
+        updateBoardView(boardState);
+
+
+        //load dictionary
+        this.dictionaryTrie = new Trie();
+        InputStream dictionaryStream = this.getApplicationContext().getResources().openRawResource(R.raw.he);
+        this.dictionaryTrie.loadDictionary(dictionaryStream);
+
+        //bind results adapter to the view
+        this.resultItems = new ArrayList<>();
+        resultItems.add(new ResultItem("HELLO"));
+        ResultsAdapter adapter = new ResultsAdapter(this, this.resultItems);
+        ListView listView = (ListView) findViewById(R.id.main_results);
+        listView.setAdapter(adapter);
 
 //        BoardView boardview = findViewById(R.id.boardView);
 //        boardview.setBoardState(mBoardState);
 
         Button enterLettersButton = (Button) findViewById(R.id.enterLetters);
         enterLettersButton.setOnClickListener((View v) -> {
-            mBoardState.setLetters("0123456789abcdef");
-            updateBoardView(mBoardState);
+            boardState.setLetters("אבגדהוזחטיכלמנספ");
+            updateBoardView(boardState);
         });
 
         Button solveButton = (Button) findViewById(R.id.solve);
         solveButton.setOnClickListener((View v) -> {
-            mBoardState.setLetters("אבגדהוזחטיכלמנספ");
-            updateBoardView(mBoardState);
+            BoardSearch boardSearch = new BoardSearch();
+            this.resultItems.clear();
+            this.resultItems.addAll(Arrays.asList("A", "B", "C", "D", "E").stream().map(item-> new ResultItem(item)).collect(Collectors.toList()));
+//            this.resultItems.addAll(boardSearch.search(this.boardState, this.dictionaryTrie));
         });
     }
-
 
 
     private void updateBoardView(BoardState boardState) {

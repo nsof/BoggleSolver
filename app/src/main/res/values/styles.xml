@@ -9,4 +9,11 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.3</item>
     </style>
+    <style name="LabelFontStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="AlertDialogCustom" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:layoutDirection">rtl</item>
+    </style>
 </resources>

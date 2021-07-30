@@ -4,23 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/enterLettersLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layoutDirection="inherit"
+    android:textDirection="inherit">
 
     <EditText
         android:id="@+id/editTextBoardLetters"
-        android:layout_width="wrap_content"
+        style="@style/LabelFontStyle"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="WWWWWWW"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginRight="20dp"
+        android:inputType="text"
+        android:layoutDirection="inherit"
+        android:textDirection="inherit"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/enterTextLabel"
+        android:id="@+id/remainingLettersCounterView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QQQQQQQQ"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginRight="20dp"
+        android:layoutDirection="inherit"
+        android:text="0 / 16"
+        android:textDirection="ltr"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextBoardLetters"
+        app:layout_constraintRight_toLeftOf="@+id/editTextBoardLetters" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

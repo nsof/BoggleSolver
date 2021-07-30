@@ -3,9 +3,12 @@
     <string name="enterLetters">הכנס אותיות</string>
     <string name="solve">פתור</string>
     <string name="words_label">תוצאות</string>
+    <string name="enterLetterDialogMessage">הכנס אותיות</string>
     <string name="defaultTextForDesigner">****
         ****
         ****
         ****</string>
-    <string name="defaultText">אבגדהוזחטיכלמנסעפצקרשת</string>
+    <string name="defaultText">אבגדהוזחטיכלמנסע</string>
+    <string name="okDialog">לך על זה</string>
+    <string name="cancelDialog">קבל ביטול</string>
 </resources>

@@ -4,6 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,36 +59,69 @@ public class MainActivity extends AppCompatActivity {
 
         Button solveButton = (Button) findViewById(R.id.solve);
         solveButton.setOnClickListener((View v) -> {
-            this.resultItems.clear();
-            this.resultListAdapter.notifyDataSetChanged();
-//            resultListAdapter.addAll(Arrays.asList("א", "ב", "ג", "ד", "ה", "ו" ).stream().map(item-> new ResultItem(item)).collect(Collectors.toList()));
-            this.resultItems.addAll(BoardSearch.search(this.boardState, this.dictionaryTrie));
-            this.resultListAdapter.notifyDataSetChanged();
+            this.updateResults(BoardSearch.search(this.boardState, this.dictionaryTrie));
         });
     }
 
 
     private void showEnterLettersDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("הכנס אותיות");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
+        builder.setTitle(R.string.enterLetters);
 
         ViewGroup enterLetterView = findViewById(R.id.enterLettersLayout);
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.enter_letters_dialog, null);
         final EditText input = (EditText) viewInflated.findViewById(R.id.editTextBoardLetters);
-        input.setHint(this.boardState.getLetters());
-
+        input.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(this.boardState.NUMBER_OF_BOARD_CELLS) });
+        final TextView remainingLettersCounterView = (TextView) viewInflated.findViewById(R.id.remainingLettersCounterView);
+        BoardState boardState = this.boardState;
+        input.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void afterTextChanged(Editable s) {
+                String remainingLettersText = String.format("%d / %2d", s.length(), boardState.NUMBER_OF_BOARD_CELLS );
+                remainingLettersCounterView.setText(remainingLettersText);
+            }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+        });
+        input.setText(this.boardState.getLetters());
+        input.setSelectAllOnFocus(true);
         builder.setView(viewInflated);
 
 // Set up the buttons
-        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    dialog.dismiss();
-                    String letters = input.getText().toString();
-                    boardState.setLetters(letters);
-            });
-        builder.setNegativeButton(android.R.string.cancel, null);
-        builder.show();
+        builder.setPositiveButton(R.string.okDialog, (dialog, which) -> {
+            String letters = input.getText().toString();
+            boardState.setLetters(letters);
+            this.updateBoardView(this.boardState);
+            this.clearResults();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(R.string.cancelDialog, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+//        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        positiveButton.setTextColor( getResources().getColor(R.color.white, null));
+//        positiveButton.setBackgroundColor(getResources().getColor(R.color.purple_500, null));
+//        positiveButton.setPadding(0, 0, 20, 0);
+//        Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+//        negativeButton.setTextColor( getResources().getColor(R.color.white, null));
+//        negativeButton.setBackgroundColor(getResources().getColor(R.color.purple_500, null));
+//        negativeButton.setPadding(0, 0, 40, 0);
     }
 
+    private void clearResults() {
+        this.resultItems.clear();
+        this.resultListAdapter.notifyDataSetChanged();
+        TextView resultsLabel = findViewById(R.id.results_label);
+        resultsLabel.setText("תוצאות");
+    }
+
+    private void updateResults(ArrayList<ResultItem> results) {
+        this.clearResults();
+        this.resultItems.addAll(results);
+        this.resultListAdapter.notifyDataSetChanged();
+        TextView resultsLabel = findViewById(R.id.results_label);
+        String labelText = String.format("נמצאו %d תוצאות", results.size());
+        resultsLabel.setText(labelText);
+    }
 
     private void updateBoardView(BoardState boardState) {
         TextView lettersTextView = findViewById(R.id.lettersTextView);

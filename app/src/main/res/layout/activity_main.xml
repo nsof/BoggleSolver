@@ -59,7 +59,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:gravity="center"
-        android:text="@string/defaultText"
+        android:text="@string/defaultTextForDesigner"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

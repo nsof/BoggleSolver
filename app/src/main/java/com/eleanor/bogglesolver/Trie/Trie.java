@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+
+// TODO: Case invariance (currently case sensitive)
+
 public class Trie {
     public TrieNode root = new TrieNode('\0');
     public int numberOfWords = 0;

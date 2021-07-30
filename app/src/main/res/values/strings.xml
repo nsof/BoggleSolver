@@ -3,8 +3,9 @@
     <string name="enterLetters">הכנס אותיות</string>
     <string name="solve">פתור</string>
     <string name="words_label">תוצאות</string>
-    <string name="defaultText">****
+    <string name="defaultTextForDesigner">****
         ****
         ****
         ****</string>
+    <string name="defaultText">אבגדהוזחטיכלמנסעפצקרשת</string>
 </resources>

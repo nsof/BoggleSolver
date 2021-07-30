@@ -1,10 +1,14 @@
 package com.eleanor.bogglesolver;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,8 +16,6 @@ import com.eleanor.bogglesolver.Trie.Trie;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.boardState = new BoardState();
+        this.boardState = new BoardState(getResources().getString(R.string.defaultText));
         updateBoardView(boardState);
 
 
@@ -47,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button enterLettersButton = (Button) findViewById(R.id.enterLetters);
         enterLettersButton.setOnClickListener((View v) -> {
-            boardState.setLetters("אבגדהוזחטיכלמנספ");
-            updateBoardView(boardState);
+             this.showEnterLettersDialog();
+//            boardState.setLetters("אבגדהוזחטיכלמנספ");
+//            updateBoardView(boardState);
         });
 
         Button solveButton = (Button) findViewById(R.id.solve);
@@ -62,9 +65,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void showEnterLettersDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("הכנס אותיות");
+
+        ViewGroup enterLetterView = findViewById(R.id.enterLettersLayout);
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.enter_letters_dialog, null);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.editTextBoardLetters);
+        input.setHint(this.boardState.getLetters());
+
+        builder.setView(viewInflated);
+
+// Set up the buttons
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    dialog.dismiss();
+                    String letters = input.getText().toString();
+                    boardState.setLetters(letters);
+            });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
+    }
+
+
     private void updateBoardView(BoardState boardState) {
         TextView lettersTextView = findViewById(R.id.lettersTextView);
-        String letters = boardState.getAsString();
+        String letters = boardState.getLetters();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < boardState.BOARD_HEIGHT; i++) {
             sb.append(letters.substring(i*boardState.BOARD_WIDTH, (i+1)*boardState.BOARD_WIDTH));

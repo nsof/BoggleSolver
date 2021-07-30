@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class BoardSearch {
 
+
+    //TODO: limit the search to find words of certain length or bigger
+    //TODO: Add path (on the board) of word found
+
     static public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
         ArrayList<ResultItem> resultItems = new ArrayList<>();
         boolean [][]visited = new boolean[boardState.BOARD_HEIGHT][boardState.BOARD_WIDTH];

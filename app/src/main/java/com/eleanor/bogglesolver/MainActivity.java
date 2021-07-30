@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private BoardState boardState;
     Trie dictionaryTrie;
     ArrayList<ResultItem> resultItems;
+    ResultsAdapter resultListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         //bind results adapter to the view
         this.resultItems = new ArrayList<>();
-        resultItems.add(new ResultItem("HELLO"));
-        ResultsAdapter adapter = new ResultsAdapter(this, this.resultItems);
+        resultListAdapter = new ResultsAdapter(this, this.resultItems);
         ListView listView = (ListView) findViewById(R.id.main_results);
-        listView.setAdapter(adapter);
+        listView.setAdapter(resultListAdapter);
 
 //        BoardView boardview = findViewById(R.id.boardView);
 //        boardview.setBoardState(mBoardState);
@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button solveButton = (Button) findViewById(R.id.solve);
         solveButton.setOnClickListener((View v) -> {
-            BoardSearch boardSearch = new BoardSearch();
             this.resultItems.clear();
-            this.resultItems.addAll(Arrays.asList("A", "B", "C", "D", "E").stream().map(item-> new ResultItem(item)).collect(Collectors.toList()));
-//            this.resultItems.addAll(boardSearch.search(this.boardState, this.dictionaryTrie));
+            this.resultListAdapter.notifyDataSetChanged();
+//            resultListAdapter.addAll(Arrays.asList("א", "ב", "ג", "ד", "ה", "ו" ).stream().map(item-> new ResultItem(item)).collect(Collectors.toList()));
+            this.resultItems.addAll(BoardSearch.search(this.boardState, this.dictionaryTrie));
+            this.resultListAdapter.notifyDataSetChanged();
         });
     }
 

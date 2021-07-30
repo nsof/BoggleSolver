@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class BoardSearch {
 
-    public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
+    static public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
         ArrayList<ResultItem> resultItems = new ArrayList<>();
-        Boolean [][]visited = new Boolean[boardState.BOARD_HEIGHT][boardState.BOARD_WIDTH];
+        boolean [][]visited = new boolean[boardState.BOARD_HEIGHT][boardState.BOARD_WIDTH];
         for (int i = 0; i < boardState.BOARD_HEIGHT; i++) {
             for (int j = 0; j < boardState.BOARD_WIDTH; j++) {
                 search(boardState, visited, dictionary.root, "", i, j, resultItems);
@@ -19,7 +19,7 @@ public class BoardSearch {
         return resultItems;
     }
 
-    public void search(BoardState boardState, Boolean [][]visited,
+    static private void search(BoardState boardState, boolean [][]visited,
                        TrieNode prefixLetterNode, String prefix,
                        int currentI, int currentJ,
                        ArrayList<ResultItem> resultItems) {
@@ -27,7 +27,7 @@ public class BoardSearch {
             return;
 
         char currentChar = boardState.letters[currentI][currentJ];
-        TrieNode currentLetterNode = prefixLetterNode.children.get(currentChar);
+        TrieNode currentLetterNode = prefixLetterNode.getSuffixes(currentChar);
         if (currentLetterNode == null)
             return;
 
@@ -36,13 +36,13 @@ public class BoardSearch {
             resultItems.add(new ResultItem(word));
         }
 
-        if (currentLetterNode.children.size() == 0)
+        if (!currentLetterNode.hasSuffixes())
             return;
 
         visited[currentI][currentJ] = true;
 
-        for (int i = Math.max(0, currentI-1); i < Math.min(boardState.BOARD_HEIGHT, currentI+1); i++) {
-            for (int j = Math.max(0, currentJ-1); j < Math.min(boardState.BOARD_WIDTH, currentJ+1); j++) {
+        for (int i = Math.max(0, currentI-1); i <= Math.min(boardState.BOARD_HEIGHT-1, currentI+1); i++) {
+            for (int j = Math.max(0, currentJ-1); j <= Math.min(boardState.BOARD_WIDTH-1, currentJ+1); j++) {
                 search(boardState, visited, currentLetterNode, word, i, j, resultItems);
             }
         }

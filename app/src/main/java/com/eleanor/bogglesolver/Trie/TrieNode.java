@@ -3,44 +3,33 @@ package com.eleanor.bogglesolver.Trie;
 import java.util.HashMap;
 
 public class TrieNode {
-    public HashMap<Character, TrieNode> children = new HashMap<Character, TrieNode>();
-//    public String content;
+    private final HashMap<Character, TrieNode> suffixes;
+    private final char content;
     public boolean isWord;
     public int numberOfSuffixes;
-//    public char prefix;
 
-
-//    public HashMap<Character, TrieNode> getChildren() {
-//        return children;
-//    }
-
-/*
-    public void setChildren(HashMap<Character, TrieNode> children) {
-        this.children = children;
+    public TrieNode(char c) {
+        this.content = c;
+        this.suffixes = new HashMap<>();
+        this.isWord = false;
+        this.numberOfSuffixes = 0;
     }
 
-    public String getContent() {
-        return content;
+    public boolean hasSuffixes() {
+        return this.suffixes.size() > 0;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public TrieNode insertSuffix(char c) {
+        this.numberOfSuffixes++;
+        TrieNode suffix = this.suffixes.get(c);
+        if (suffix == null) {
+            suffix = new TrieNode(c);
+            this.suffixes.put(c, suffix);
+        }
+        return suffix;
     }
 
-    public boolean isWord() {
-        return isWord;
+    public TrieNode getSuffixes(char c) {
+        return this.suffixes.get(c);
     }
-
-    public void setIsWord(boolean isWord) {
-        this.isWord = isWord;
-    }
-
-    public int getNumberOfSuffixes() {
-        return numberOfSuffixes;
-    }
-
-    public void setNumberOfSuffixes(int numberOfSuffixes) {
-        this.numberOfSuffixes = numberOfSuffixes;
-    }
-*/
 }

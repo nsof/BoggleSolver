@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class Trie {
-    public TrieNode root = new TrieNode();
+    public TrieNode root = new TrieNode('\0');
     public int numberOfWords = 0;
 
     public Trie() {
@@ -28,9 +28,8 @@ public class Trie {
     public void insert(String word) {
         TrieNode current = root;
 
-        for (char l: word.toCharArray()) {
-            current.numberOfSuffixes++;
-            current = current.children.computeIfAbsent(l, c -> new TrieNode());
+        for (char letter: word.toCharArray()) {
+            current = current.insertSuffix(letter);
         }
 
         current.isWord = true;
@@ -41,7 +40,7 @@ public class Trie {
     public TrieNode containsPrefix(String word) {
         TrieNode current = root;
         for (char c: word.toCharArray()) {
-            current = current.children.get(c);
+            current = current.getSuffixes(c);
             if (current == null)
                 break;
         }

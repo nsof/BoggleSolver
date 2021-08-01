@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +80,14 @@ public class MainActivity extends AppCompatActivity {
             @Override public void afterTextChanged(Editable s) {
                 String remainingLettersText = String.format("%d / %2d", s.length(), boardState.NUMBER_OF_BOARD_CELLS );
                 remainingLettersCounterView.setText(remainingLettersText);
+                if (s.length() < boardState.NUMBER_OF_BOARD_CELLS)
+                    remainingLettersCounterView.setTextColor(getColor(R.color.error));
+                else
+                    remainingLettersCounterView.setTextColor(getColor(R.color.ok));
             }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
+
         input.setText(this.boardState.getLetters());
         input.setSelectAllOnFocus(true);
         builder.setView(viewInflated);

@@ -11,4 +11,5 @@
     <string name="defaultText">אבגדהוזחטיכלמנסע</string>
     <string name="okDialog">לך על זה</string>
     <string name="cancelDialog">קבל ביטול</string>
+    <string name="allowedCharacters">אבגדהוזחטיכלמנסעפצקרשת</string>
 </resources>

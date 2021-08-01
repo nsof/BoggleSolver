@@ -20,6 +20,7 @@ import com.eleanor.bogglesolver.Trie.Trie;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,19 +49,21 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.main_results);
         listView.setAdapter(resultListAdapter);
 
-//        BoardView boardview = findViewById(R.id.boardView);
-//        boardview.setBoardState(mBoardState);
-
         Button enterLettersButton = (Button) findViewById(R.id.enterLetters);
         enterLettersButton.setOnClickListener((View v) -> {
              this.showEnterLettersDialog();
-//            boardState.setLetters("אבגדהוזחטיכלמנספ");
-//            updateBoardView(boardState);
         });
 
         Button solveButton = (Button) findViewById(R.id.solve);
         solveButton.setOnClickListener((View v) -> {
-            this.updateResults(BoardSearch.search(this.boardState, this.dictionaryTrie));
+            ArrayList<ResultItem> results = BoardSearch.search(this.boardState, this.dictionaryTrie);
+            results.sort(new Comparator<ResultItem>() {
+                @Override
+                public int compare(ResultItem lhs, ResultItem rhs) {
+                    return -(new Integer(lhs.word.length()).compareTo(rhs.word.length()));
+                }
+            });
+            this.updateResults(results);
         });
     }
 
@@ -103,14 +106,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.cancelDialog, null);
         AlertDialog dialog = builder.create();
         dialog.show();
-//        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//        positiveButton.setTextColor( getResources().getColor(R.color.white, null));
-//        positiveButton.setBackgroundColor(getResources().getColor(R.color.purple_500, null));
-//        positiveButton.setPadding(0, 0, 20, 0);
-//        Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//        negativeButton.setTextColor( getResources().getColor(R.color.white, null));
-//        negativeButton.setBackgroundColor(getResources().getColor(R.color.purple_500, null));
-//        negativeButton.setPadding(0, 0, 40, 0);
     }
 
     private void clearResults() {

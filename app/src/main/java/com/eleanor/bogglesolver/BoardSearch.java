@@ -4,12 +4,14 @@ import com.eleanor.bogglesolver.Trie.Trie;
 import com.eleanor.bogglesolver.Trie.TrieNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+//TODO: limit the search to find words of certain length or bigger
+//TODO: Add path (on the board) of word found
+//TODO: ?Allow duplicates of different paths?
 public class BoardSearch {
-
-
-    //TODO: limit the search to find words of certain length or bigger
-    //TODO: Add path (on the board) of word found
 
     static public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
         ArrayList<ResultItem> resultItems = new ArrayList<>();
@@ -20,6 +22,9 @@ public class BoardSearch {
             }
         }
 
+        //remove duplicates
+        Set<String> set = new HashSet<>(resultItems.size());
+        resultItems.removeIf(p -> !set.add(p.word));
         return resultItems;
     }
 

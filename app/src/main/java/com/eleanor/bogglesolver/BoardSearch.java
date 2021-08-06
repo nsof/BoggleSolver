@@ -6,7 +6,6 @@ import com.eleanor.bogglesolver.Trie.TrieNode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 //TODO: limit the search to find words of certain length or bigger
 //TODO: Add path (on the board) of word found
@@ -35,7 +34,7 @@ public class BoardSearch {
         if (visited[currentI][currentJ])
             return;
 
-        char currentChar = boardState.letters[currentI][currentJ];
+        char currentChar = boardState.getLetter(currentI, currentJ);
         TrieNode currentLetterNode = prefixLetterNode.getSuffixes(currentChar);
         if (currentLetterNode == null)
             return;

@@ -3,11 +3,14 @@ package com.eleanor.bogglesolver;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.view.ViewCompat;
+import androidx.gridlayout.widget.GridLayout;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.boardState = new BoardState(getResources().getString(R.string.defaultText));
-        updateBoardView(boardState);
-
+        createBoardView(boardState);
 
         //load dictionary
         this.dictionaryTrie = new Trie();
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             results.sort(new Comparator<ResultItem>() {
                 @Override
                 public int compare(ResultItem lhs, ResultItem rhs) {
-                    return -(new Integer(lhs.word.length()).compareTo(rhs.word.length()));
+                    return -(Integer.compare(lhs.word.length(), rhs.word.length()));
                 }
             });
             this.updateResults(results);
@@ -124,27 +126,39 @@ public class MainActivity extends AppCompatActivity {
         resultsLabel.setText(labelText);
     }
 
-    private void updateBoardView(BoardState boardState) {
-        TextView lettersTextView = findViewById(R.id.lettersTextView);
-        String letters = boardState.getLetters();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < boardState.BOARD_HEIGHT; i++) {
-            sb.append(letters.substring(i*boardState.BOARD_WIDTH, (i+1)*boardState.BOARD_WIDTH));
-            sb.append("\n");
-        }
-        lettersTextView.setText(sb.toString());
-/*
+    final int ID_SEED = View.generateViewId();
+
+    private void createBoardView(BoardState boardState) {
+        GridLayout lettersGrid = findViewById(R.id.board);
+        lettersGrid.setColumnCount(boardState.BOARD_WIDTH);
+        lettersGrid.setRowCount(boardState.BOARD_HEIGHT);
+//        int cellWidth = lettersGrid.getWidth() / boardState.BOARD_WIDTH;
+//        int cellHeight = lettersGrid.getHeight() / boardState.BOARD_HEIGHT;
+
         for (int i = 0; i < boardState.BOARD_HEIGHT ; i++) {
             for (int j = 0; j < boardState.BOARD_WIDTH ; j++) {
-                String resourceName = "textView_" + String.format("%d%d", i, j);
-                String packageName = getApplicationContext().getPackageName();
-                int id = getResources().getIdentifier(resourceName, "id", packageName);
-                if(id != 0) {
-                    TextView textView = (TextView) findViewById(id);
-                    textView.setText(Character.toString(boardState.mLetters[i][j]));
-                }
+                TextView letterView = new TextView(this);
+                letterView.setId(ID_SEED + boardState.getOffset(i, j));
+                GridLayout.LayoutParams letterViewLayoutParams = new GridLayout.LayoutParams();
+//                letterViewLayoutParams.width = cellWidth;
+//                letterViewLayoutParams.height = cellHeight;
+                letterView.setLayoutParams(letterViewLayoutParams);
+                letterView.setGravity(Gravity.CENTER);
+                lettersGrid.addView(letterView, letterViewLayoutParams);
             }
         }
-*/
+
+        updateBoardView(boardState);
+    }
+
+    private void updateBoardView(BoardState boardState) {
+        GridLayout lettersGrid = findViewById(R.id.board);
+        for (int i = 0; i < boardState.BOARD_HEIGHT ; i++) {
+            for (int j = 0; j < boardState.BOARD_WIDTH ; j++) {
+                TextView letterView = lettersGrid.findViewById(ID_SEED + boardState.getOffset(i, j));
+                letterView.setText(String.valueOf(boardState.getLetter(i, j)));
+                letterView.setTextAppearance(R.style.BoardFontStyle);
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@ public class BoardState {
     public int BOARD_WIDTH;
     public int BOARD_HEIGHT;
     public int NUMBER_OF_BOARD_CELLS;
-    public char[][] letters;
+    private char[][] letters;
 
     public BoardState(String input) {
         BOARD_WIDTH = 4;
@@ -37,4 +37,11 @@ public class BoardState {
 
         return sb.toString();
     }
+
+    public char getLetter(int i, int j) {
+        return letters[i][j];
+    }
+
+    public int getOffset(int i, int j) { return i*this.BOARD_WIDTH + j; }
+
 }

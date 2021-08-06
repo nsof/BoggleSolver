@@ -53,13 +53,13 @@ public class BoardView extends View {
 
     private void createViews() {
         // create textviews, position them, add them to parent (constraint) layout
-        cells = new TextView[this.boardState.BOARD_HEIGHT][this.boardState.BOARD_HEIGHT];
-        ConstraintLayout containerLayout = findViewById(R.id.containerLayout);
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.MATCH_CONSTRAINT);
-        for (int i = 0; i < this.boardState.BOARD_HEIGHT ; i++) {
-            for (int j = 0; j < this.boardState.BOARD_WIDTH; j++) {
-                String resourceName = "textView_" + String.format("%d%d", i, j);
-            }
-        }
+//        cells = new TextView[this.boardState.BOARD_HEIGHT][this.boardState.BOARD_HEIGHT];
+//        ConstraintLayout containerLayout = findViewById(R.id.containerLayout);
+//        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.MATCH_CONSTRAINT);
+//        for (int i = 0; i < this.boardState.BOARD_HEIGHT ; i++) {
+//            for (int j = 0; j < this.boardState.BOARD_WIDTH; j++) {
+//                String resourceName = "textView_" + String.format("%d%d", i, j);
+//            }
+//        }
     }
 }

@@ -14,13 +14,13 @@ import java.util.Set;
 //TODO: ?Allow duplicates of different paths?
 public class BoardSearch {
 
-    static public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
+    static public ArrayList<ResultItem> search(GameBoard gameBoard, Trie dictionary) {
         ArrayList<ResultItem> resultItems = new ArrayList<>();
-        boolean [][]visited = new boolean[boardState.BOARD_HEIGHT][boardState.BOARD_WIDTH];
+        boolean [][]visited = new boolean[gameBoard.BOARD_HEIGHT][gameBoard.BOARD_WIDTH];
         ArrayList<Pair<Integer,Integer>> path = new ArrayList<>();
-        for (int i = 0; i < boardState.BOARD_HEIGHT; i++) {
-            for (int j = 0; j < boardState.BOARD_WIDTH; j++) {
-                search(boardState, visited, dictionary.root, i, j, "", path, resultItems);
+        for (int i = 0; i < gameBoard.BOARD_HEIGHT; i++) {
+            for (int j = 0; j < gameBoard.BOARD_WIDTH; j++) {
+                search(gameBoard, visited, dictionary.root, i, j, "", path, resultItems);
             }
         }
 
@@ -30,7 +30,7 @@ public class BoardSearch {
         return resultItems;
     }
 
-    static private void search(BoardState boardState, boolean [][]visited,
+    static private void search(GameBoard gameBoard, boolean [][]visited,
                                TrieNode prefixLetterNode,
                                int currentI, int currentJ,
                                String prefix, ArrayList<Pair<Integer, Integer>> path,
@@ -38,7 +38,7 @@ public class BoardSearch {
         if (visited[currentI][currentJ])
             return;
 
-        char currentChar = boardState.getLetter(currentI, currentJ);
+        char currentChar = gameBoard.getLetter(currentI, currentJ);
         TrieNode currentLetterNode = prefixLetterNode.getSuffixes(currentChar);
         if (currentLetterNode == null)
             return;
@@ -60,9 +60,9 @@ public class BoardSearch {
 
         visited[currentI][currentJ] = true;
 
-        for (int i = Math.max(0, currentI-1); i <= Math.min(boardState.BOARD_HEIGHT-1, currentI+1); i++) {
-            for (int j = Math.max(0, currentJ-1); j <= Math.min(boardState.BOARD_WIDTH-1, currentJ+1); j++) {
-                search(boardState, visited, currentLetterNode, i, j, word, pathToCurrent, resultItems);
+        for (int i = Math.max(0, currentI-1); i <= Math.min(gameBoard.BOARD_HEIGHT-1, currentI+1); i++) {
+            for (int j = Math.max(0, currentJ-1); j <= Math.min(gameBoard.BOARD_WIDTH-1, currentJ+1); j++) {
+                search(gameBoard, visited, currentLetterNode, i, j, word, pathToCurrent, resultItems);
             }
         }
 

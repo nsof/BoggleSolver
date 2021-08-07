@@ -1,12 +1,12 @@
 package com.eleanor.bogglesolver;
 
-public class BoardState {
+public class GameBoard {
     public int BOARD_WIDTH;
     public int BOARD_HEIGHT;
     public int NUMBER_OF_BOARD_CELLS;
     private char[][] letters;
 
-    public BoardState(String input) {
+    public GameBoard(String input) {
         BOARD_WIDTH = 4;
         BOARD_HEIGHT = 4;
         NUMBER_OF_BOARD_CELLS = BOARD_WIDTH * BOARD_HEIGHT;

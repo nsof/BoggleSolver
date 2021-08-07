@@ -3,7 +3,6 @@ package com.eleanor.bogglesolver;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.core.view.ViewCompat;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.os.Bundle;
@@ -27,7 +26,7 @@ import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BoardState boardState;
+    private GameBoard gameBoard;
     Trie dictionaryTrie;
     ArrayList<ResultItem> resultItems;
     ResultsAdapter resultListAdapter;
@@ -37,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.boardState = new BoardState(getResources().getString(R.string.defaultText));
-        createBoardView(boardState);
+        this.gameBoard = new GameBoard(getResources().getString(R.string.defaultText));
+        createBoardView(gameBoard);
 
         //load dictionary
         this.dictionaryTrie = new Trie();
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button solveButton = (Button) findViewById(R.id.solve);
         solveButton.setOnClickListener((View v) -> {
-            ArrayList<ResultItem> results = BoardSearch.search(this.boardState, this.dictionaryTrie);
+            ArrayList<ResultItem> results = BoardSearch.search(this.gameBoard, this.dictionaryTrie);
             results.sort(new Comparator<ResultItem>() {
                 @Override
                 public int compare(ResultItem lhs, ResultItem rhs) {
@@ -77,15 +76,15 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup enterLetterView = findViewById(R.id.enterLettersLayout);
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.enter_letters_dialog, null);
         final EditText input = (EditText) viewInflated.findViewById(R.id.editTextBoardLetters);
-        input.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(this.boardState.NUMBER_OF_BOARD_CELLS) });
+        input.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(this.gameBoard.NUMBER_OF_BOARD_CELLS) });
         final TextView remainingLettersCounterView = (TextView) viewInflated.findViewById(R.id.remainingLettersCounterView);
-        BoardState boardState = this.boardState;
+        GameBoard gameBoard = this.gameBoard;
         input.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void afterTextChanged(Editable s) {
-                String remainingLettersText = String.format("%d / %2d", s.length(), boardState.NUMBER_OF_BOARD_CELLS );
+                String remainingLettersText = String.format("%d / %2d", s.length(), gameBoard.NUMBER_OF_BOARD_CELLS );
                 remainingLettersCounterView.setText(remainingLettersText);
-                if (s.length() < boardState.NUMBER_OF_BOARD_CELLS)
+                if (s.length() < gameBoard.NUMBER_OF_BOARD_CELLS)
                     remainingLettersCounterView.setTextColor(getColor(R.color.error));
                 else
                     remainingLettersCounterView.setTextColor(getColor(R.color.ok));
@@ -93,15 +92,15 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
         });
 
-        input.setText(this.boardState.getLetters());
+        input.setText(this.gameBoard.getLetters());
         input.setSelectAllOnFocus(true);
         builder.setView(viewInflated);
 
 // Set up the buttons
         builder.setPositiveButton(R.string.okDialog, (dialog, which) -> {
             String letters = input.getText().toString();
-            boardState.setLetters(letters);
-            this.updateBoardView(this.boardState);
+            gameBoard.setLetters(letters);
+            this.updateBoardView(this.gameBoard);
             this.clearResults();
             dialog.dismiss();
         });
@@ -128,17 +127,17 @@ public class MainActivity extends AppCompatActivity {
 
     final int ID_SEED = View.generateViewId();
 
-    private void createBoardView(BoardState boardState) {
+    private void createBoardView(GameBoard gameBoard) {
         GridLayout lettersGrid = findViewById(R.id.board);
-        lettersGrid.setColumnCount(boardState.BOARD_WIDTH);
-        lettersGrid.setRowCount(boardState.BOARD_HEIGHT);
+        lettersGrid.setColumnCount(gameBoard.BOARD_WIDTH);
+        lettersGrid.setRowCount(gameBoard.BOARD_HEIGHT);
 //        int cellWidth = lettersGrid.getWidth() / boardState.BOARD_WIDTH;
 //        int cellHeight = lettersGrid.getHeight() / boardState.BOARD_HEIGHT;
 
-        for (int i = 0; i < boardState.BOARD_HEIGHT ; i++) {
-            for (int j = 0; j < boardState.BOARD_WIDTH ; j++) {
+        for (int i = 0; i < gameBoard.BOARD_HEIGHT ; i++) {
+            for (int j = 0; j < gameBoard.BOARD_WIDTH ; j++) {
                 TextView letterView = new TextView(this);
-                letterView.setId(ID_SEED + boardState.getOffset(i, j));
+                letterView.setId(ID_SEED + gameBoard.getOffset(i, j));
                 GridLayout.LayoutParams letterViewLayoutParams = new GridLayout.LayoutParams();
 //                letterViewLayoutParams.width = cellWidth;
 //                letterViewLayoutParams.height = cellHeight;
@@ -148,15 +147,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        updateBoardView(boardState);
+        updateBoardView(gameBoard);
     }
 
-    private void updateBoardView(BoardState boardState) {
+    private void updateBoardView(GameBoard gameBoard) {
         GridLayout lettersGrid = findViewById(R.id.board);
-        for (int i = 0; i < boardState.BOARD_HEIGHT ; i++) {
-            for (int j = 0; j < boardState.BOARD_WIDTH ; j++) {
-                TextView letterView = lettersGrid.findViewById(ID_SEED + boardState.getOffset(i, j));
-                letterView.setText(String.valueOf(boardState.getLetter(i, j)));
+        for (int i = 0; i < gameBoard.BOARD_HEIGHT ; i++) {
+            for (int j = 0; j < gameBoard.BOARD_WIDTH ; j++) {
+                TextView letterView = lettersGrid.findViewById(ID_SEED + gameBoard.getOffset(i, j));
+                letterView.setText(String.valueOf(gameBoard.getLetter(i, j)));
                 letterView.setTextAppearance(R.style.BoardFontStyle);
             }
         }

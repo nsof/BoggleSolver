@@ -1,22 +1,16 @@
 package com.eleanor.bogglesolver;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * TODO: document your custom view class.
  */
 public class BoardView extends View {
-    private BoardState boardState;
+    private GameBoard gameBoard;
     private TextView[][] cells;
 
     public BoardView(Context context) {
@@ -42,12 +36,12 @@ public class BoardView extends View {
         super.onDraw(canvas);
     }
 
-    public BoardState getBoardState() {
-        return boardState;
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
-    public void setBoardState(BoardState boardState) {
-        this.boardState = boardState;
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
         createViews();
     }
 

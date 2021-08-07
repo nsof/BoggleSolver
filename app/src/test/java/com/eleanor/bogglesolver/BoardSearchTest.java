@@ -2,7 +2,12 @@ package com.eleanor.bogglesolver;
 
 import com.eleanor.bogglesolver.Trie.Trie;
 
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertNotNull;
 
 public class BoardSearchTest {
 
@@ -18,10 +23,10 @@ public class BoardSearchTest {
 
     @Test
     public void testSearchWords() {
-        BoardState boardState = new BoardState();
-        boardState.setLetters("אבגדהוזחטיכלמנספ");
+        BoardState boardState = new BoardState("אבגדהוזחטיכלמנספ");
         Trie dictionary = new Trie();
         insertSomeHebrewElements(dictionary);
-        BoardSearch.search(boardState, dictionary);
+        ArrayList<ResultItem> results = BoardSearch.search(boardState, dictionary);
+        assertNotNull(results);
     }
 }

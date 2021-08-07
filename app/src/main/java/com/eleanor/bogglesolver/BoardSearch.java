@@ -1,5 +1,7 @@
 package com.eleanor.bogglesolver;
 
+import androidx.core.util.Pair;
+
 import com.eleanor.bogglesolver.Trie.Trie;
 import com.eleanor.bogglesolver.Trie.TrieNode;
 
@@ -15,9 +17,10 @@ public class BoardSearch {
     static public ArrayList<ResultItem> search(BoardState boardState, Trie dictionary) {
         ArrayList<ResultItem> resultItems = new ArrayList<>();
         boolean [][]visited = new boolean[boardState.BOARD_HEIGHT][boardState.BOARD_WIDTH];
+        ArrayList<Pair<Integer,Integer>> path = new ArrayList<>();
         for (int i = 0; i < boardState.BOARD_HEIGHT; i++) {
             for (int j = 0; j < boardState.BOARD_WIDTH; j++) {
-                search(boardState, visited, dictionary.root, "", i, j, resultItems);
+                search(boardState, visited, dictionary.root, i, j, "", path, resultItems);
             }
         }
 
@@ -28,9 +31,10 @@ public class BoardSearch {
     }
 
     static private void search(BoardState boardState, boolean [][]visited,
-                       TrieNode prefixLetterNode, String prefix,
-                       int currentI, int currentJ,
-                       ArrayList<ResultItem> resultItems) {
+                               TrieNode prefixLetterNode,
+                               int currentI, int currentJ,
+                               String prefix, ArrayList<Pair<Integer, Integer>> path,
+                               ArrayList<ResultItem> resultItems) {
         if (visited[currentI][currentJ])
             return;
 
@@ -39,9 +43,16 @@ public class BoardSearch {
         if (currentLetterNode == null)
             return;
 
+
+        //TODO there's a way to improve memory/perf by not copying the array
+        // and pushing and popping the current location to path rather than
+        // allocating a new array, adding current and letting the stack take care of the removal
+        ArrayList<Pair<Integer, Integer>> pathToCurrent = new ArrayList<>(path); // this is a shallow copy which is fine
+        pathToCurrent.add(new Pair<>(currentI, currentJ));
+
         String word = prefix + currentChar;
         if (currentLetterNode.isWord) {
-            resultItems.add(new ResultItem(word));
+            resultItems.add(new ResultItem(word, pathToCurrent));
         }
 
         if (!currentLetterNode.hasSuffixes())
@@ -51,7 +62,7 @@ public class BoardSearch {
 
         for (int i = Math.max(0, currentI-1); i <= Math.min(boardState.BOARD_HEIGHT-1, currentI+1); i++) {
             for (int j = Math.max(0, currentJ-1); j <= Math.min(boardState.BOARD_WIDTH-1, currentJ+1); j++) {
-                search(boardState, visited, currentLetterNode, word, i, j, resultItems);
+                search(boardState, visited, currentLetterNode, i, j, word, pathToCurrent, resultItems);
             }
         }
 
